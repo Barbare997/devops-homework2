@@ -1,0 +1,11 @@
+groups:
+  - name: demo-app-alerts
+    rules:
+      - alert: HighApplicationErrorRate
+        expr: sum(rate(app_errors_total[1m])) * 60 > 5
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "CRITICAL: application error rate exceeds 5 per minute"
+          description: "The demo app is returning more than 5 errors per minute (current rate: {{ $value | printf \"%.2f\" }} errors/min)."
